@@ -5,7 +5,10 @@ const Op = require('../config/db').Op;
 const User  = sequelize.define(
     'users',
     {   
-        
+        userid:{
+            type: Sequelize.UUIDV4,
+            primaryKey: true
+        },
         name: {
             type: Sequelize.STRING,
             allowNull: false
