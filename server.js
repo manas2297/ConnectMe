@@ -1,5 +1,4 @@
 const express = require('express');
-const sequelize = require('./config/db').sequelize;
 const Op = require('./config/db').Op;
 const app = express();
 
@@ -11,7 +10,8 @@ app.use(express.json( { extended: false } ));
 
 //Routes
 
-app.use('/api/users',require('./routes/api/users'));
+app.use('/api/users',require('./routes/api/users'));  //Route for registering a user
+app.use('/api/auth', require('./routes/api/auth'));
 
 
 

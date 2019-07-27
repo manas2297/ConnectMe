@@ -21,6 +21,11 @@ const User  = sequelize.define(
         password: {
             type: Sequelize.STRING,
             allowNull: false
+        },
+        isVerified: {
+            type: Sequelize.STRING,
+            allowNull: false,
+            defaultValue: false
         }
     },{
         timestamps: false

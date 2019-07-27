@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const uuid = require('uuidv4');
 const User  = require('../../Models/User');
 const config = require('config');
+const nodemailer = require('nodemailer');
 
 //route POST api/users
 //desc Register User
