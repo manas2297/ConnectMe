@@ -4,6 +4,7 @@ const Profile = require('../../models/Profile');
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 const uuid = require('uuidv4');
+const User = require('../../models/User');
 
 //@desc Display profile of logged in user
 router.get('/me',auth, async ( req, res ) => {
@@ -105,8 +106,64 @@ router.post('/',[auth,[
         
     }
 
-}
+});
 
-)
+//@route    GET api/profile/listAll
+//@desc     List All profiles
+//@access   Public
 
+router.get('/listAll', async ( req, res ) => {
+    try{
+
+        let profiles = await Profile.findAll( {include:[{model:User, as:'user', attributes:['name','email']}]});
+        res.json(profiles);
+    }catch(err){
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+//@route    GET api/profile/user/:userid
+//@desc     Get Profile by userid
+//@access   Public
+
+router.get('/user/:userid', async ( req, res ) => {
+    try{
+
+        let profile = await Profile.findOne( {where:{userUserid: req.params.userid},include:[{model:User, as:'user', attributes:['name','email']}]});
+        if(!profile){
+            return res.status(400).json({msg: 'Profile not found'});
+        }
+        res.json(profile);
+    }catch(err){
+        console.error(err.message);
+        // if(err.kind == 'uuid'){
+        //     return res.status(400).json({msg: 'Profile not found'});
+        // }
+        res.status(500).send('Server Error');
+    }
+});
+
+//@route    DELETE api/profile
+//@desc     Delete profile, user & post
+//@access   Private
+
+router.delete('/',auth, async ( req, res ) => {
+    try{
+
+        //Remove Profile
+        let profile = await Profile.findOne({where:{userUserid: req.user.id}});
+        let user  = await User.findOne({where:{userid:req.user.id}});
+        
+        await profile.destroy({force:true});
+        await user.destroy({force:true});
+        res.json({msg:'User removed'});
+    }catch(err){
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+})
+
+
+    
 module.exports= router;
