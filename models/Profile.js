@@ -2,6 +2,8 @@ const Sequelize = require('sequelize');
 const sequelize = require('../config/db').sequelize;
 const Op = require('../config/db').Op;
 const User = require('./User'); 
+const Education = require('./Education');
+const Experience = require('./Experience');
 
 const Profile = sequelize.define(
   'profile',
@@ -63,5 +65,7 @@ const Profile = sequelize.define(
   }
 );
 Profile.belongsTo(User);
+Profile.hasOne(Education);
+Profile.hasMany(Experience);
 
 module.exports = Profile;

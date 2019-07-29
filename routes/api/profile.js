@@ -5,11 +5,23 @@ const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 const uuid = require('uuidv4');
 const User = require('../../models/User');
+const Education = require('../../models/Education');
+const Experience = require('../../models/Experience');
 
 //@desc Display profile of logged in user
 router.get('/me',auth, async ( req, res ) => {
     try{
-        const profile = await Profile.findOne({where:{userUserid: req.user.id}});
+        const profile = await Profile.findOne({where:{userUserid: req.user.id},
+            include: [
+                {
+                    model:Education,
+                    attributes: ['school','degree','fieldofstudy','from','to','current','description']
+                },
+                {
+                    model: Experience
+                }
+            ]
+        });
         if(!profile){
             return res.status(400).json({msg: 'Generate the profile first'});
         }
@@ -115,7 +127,7 @@ router.post('/',[auth,[
 router.get('/listAll', async ( req, res ) => {
     try{
 
-        let profiles = await Profile.findAll( {include:[{model:User, as:'user', attributes:['name','email']}]});
+        let profiles = await Profile.findAll( {include:[{model:User, as:'user', attributes:['name','email']},{model:Education,attributes: ['school','degree','fieldofstudy','from','to','current','description']}]});
         res.json(profiles);
     }catch(err){
         console.error(err.message);
@@ -130,7 +142,7 @@ router.get('/listAll', async ( req, res ) => {
 router.get('/user/:userid', async ( req, res ) => {
     try{
 
-        let profile = await Profile.findOne( {where:{userUserid: req.params.userid},include:[{model:User, as:'user', attributes:['name','email']}]});
+        let profile = await Profile.findOne( {where:{userUserid: req.params.userid},include:[{model:User, as:'user', attributes:['name','email']},{model:Education,attributes: ['school','degree','fieldofstudy','from','to','current','description']}]});
         if(!profile){
             return res.status(400).json({msg: 'Profile not found'});
         }
@@ -153,8 +165,10 @@ router.delete('/',auth, async ( req, res ) => {
 
         //Remove Profile
         let profile = await Profile.findOne({where:{userUserid: req.user.id}});
+        let edu = await Education.findOne({where:{profileProfilesId:profile.profiles_id}});
         let user  = await User.findOne({where:{userid:req.user.id}});
         
+        await edu.destroy({froce:true});
         await profile.destroy({force:true});
         await user.destroy({force:true});
         res.json({msg:'User removed'});
@@ -162,8 +176,179 @@ router.delete('/',auth, async ( req, res ) => {
         console.error(err.message);
         res.status(500).send('Server Error');
     }
+});
+
+//@route    Post api/profile/education
+//@desc     Create user education
+//@access   Private
+
+router.post('/education', 
+    [ 
+        auth, 
+        [
+            check('school', 'Enter your school')
+                .not()
+                .isEmpty(),
+            check('degree','Degree details are required')
+                .not()
+                .isEmpty(),
+            check('fieldofstudy', 'Enter field of study')
+                .not()
+                .isEmpty(),
+            check('from','From is required')
+                .not()
+                .isEmpty()
+        ]
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        const {
+           school,
+           degree,
+           fieldofstudy,
+           from,
+           to,
+           current,
+           description
+        } = req.body;
+        const newEdu = {
+            school,
+            degree,
+            fieldofstudy,
+            from,
+            to,
+            current,
+            description
+         }; 
+         
+
+         try{
+            let userProfile = await Profile.findOne({
+                where: {
+                    userUserid: req.user.id
+                },
+            });
+            newEdu.profileProfilesId = userProfile.profiles_id;
+            let edu = await Education.findOne({
+                where: {
+                    profileProfilesId: userProfile.profiles_id
+                }
+            });
+            if(edu){
+                console.log('hello');
+                
+                await userProfile.update({
+                    newEdu
+                });
+                return res.json(userProfile);
+            }
+
+            edu = await Education.build(newEdu);
+            await edu.save();
+            res.json(edu);
+
+         }catch(err){
+             console.error(err.message);
+             res.status(500).send('Server Error');
+         }
+
+    }   
+ );
+ //@route    Post api/profile/experience
+//@desc     Create user experience
+//@access   Private
+router.post('/experience', [
+    auth,
+    [
+        check('title','Title is required')
+        .not()
+        .isEmpty(),
+        check('company','Comapny is required')
+        .not()
+        .isEmpty()
+    ]   
+], async (req,res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()});
+    }
+
+    const {
+        title,
+        company,
+        location,
+        from,
+        to,
+        current,
+        description
+    } = req.body;
+
+    const newExp = {
+        title,
+        company,
+        location,
+        from,
+        to,
+        current,
+        description
+    }
+
+    try{
+        let profile = await Profile.findOne({where:{userUserid:req.user.id}});
+    newExp.profileProfilesId = profile.profiles_id;
+    let exp = await Experience.build(newExp);
+    await exp.save();
+    res.json(exp);
+    }catch(err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }  
+} );
+
+router.post('/experience/edit/:exp_id',[
+    auth,
+    [
+        check('title','Title is required')
+        .not()
+        .isEmpty(),
+        check('company','Company is required')
+        .not()
+        .isEmpty()
+    ]
+], async ( req, res ) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()});
+    }
+
+    const {
+        title,
+        company,
+        location,
+        from,
+        to,
+        current,
+        description
+    } = req.body;
+
+    const newExp = {
+        title,
+        company,
+        location,
+        from,
+        to,
+        current,
+        description
+    }
+    try{
+
+    }catch(err){
+        console.error(err.message);
+        req.status(500).send('Server Error');
+    }
 })
 
-
-    
 module.exports= router;
