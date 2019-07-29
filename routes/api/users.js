@@ -4,7 +4,7 @@ const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const uuid = require('uuidv4');
-const User  = require('../../Models/User');
+const User  = require('../../models/User');
 const config = require('config');
 const nodemailer = require('nodemailer');
 
