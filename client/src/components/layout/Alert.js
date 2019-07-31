@@ -3,17 +3,25 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class Alert extends React.Component{
-    constructor(props){
-        super(props);
-    }
+   
     render(){
-        return(
 
+        return(
+            
+                this.props.alerts !==null && this.props.alerts.length > 0 && this.props.alerts.map(alert => (
+                    <div key={alert.id} className={`alert alert-${alert.alertType}`}>
+                        {alert.msg}
+                    </div>
+                ))
+            
+           
         )
     }
 }
-Alert.PropTypes = {
-
+Alert.propTypes = {
+    alerts: PropTypes.array.isRequired, 
 }
-
-export default connect()(Alert);
+const mapStateToProps = state => ({
+    alerts: state.alert
+})
+export default connect(mapStateToProps)(Alert);

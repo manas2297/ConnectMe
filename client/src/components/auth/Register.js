@@ -23,7 +23,7 @@ class Register extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         if(this.state.formData.password !== this.state.formData.password2){
-            this.props.setAlert('Passwords do n ot match', 'danger');
+            this.props.setAlert('Passwords do not match', 'danger');
             
         } else {
             console.log(this.state.formData);
