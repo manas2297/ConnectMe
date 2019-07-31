@@ -1,6 +1,6 @@
 /* Global Styles */
 :root {
-  --primary-color: #17a2b8;
+  --primary-color: #db0a5b;
   --dark-color: #343a40;
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
@@ -130,6 +130,7 @@ img {
   display: inline-block;
   background: var(--light-color);
   color: #333;
+  
   padding: 0.4rem 1.3rem;
   font-size: 1rem;
   border: none;
@@ -137,6 +138,7 @@ img {
   margin-right: 0.5rem;
   transition: opacity 0.2s ease-in;
   outline: none;
+  border-radius: 6px;
 }
 
 .badge {
@@ -236,7 +238,13 @@ img {
 
 /* Forms */
 .form .form-group {
+  /* margin: 0 auto; */
   margin: 1.2rem 0;
+  /* margin: 0 auto; */
+}
+.form{
+  width: 70%;
+  margin: 0 auto;
 }
 
 .form .form-text {
@@ -252,6 +260,7 @@ img {
 .form select,
 .form textarea {
   display: block;
+
   width: 100%;
   padding: 0.4rem;
   font-size: 1.2rem;
