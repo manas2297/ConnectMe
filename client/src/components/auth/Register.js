@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
+import { register } from '../../actions/auth';
 import PropTypes from 'prop-types'
 
 class Register extends React.Component {
@@ -26,7 +27,8 @@ class Register extends React.Component {
             this.props.setAlert('Passwords do not match', 'danger');
             
         } else {
-            console.log(this.state.formData);
+            const {name,email,password} = this.state.formData;
+            this.props.register({name, email, password});
         }
     }
     
@@ -48,10 +50,8 @@ class Register extends React.Component {
                         placeholder='name'
                         name='name'
                         value={this.state.formData.name}
-                        onChange={this.handleChange}
-                        required
-                        
-                        />
+                        onChange={this.handleChange}             
+                    />
                     </div>
                     <div className="form-group">
                         <input 
@@ -60,14 +60,12 @@ class Register extends React.Component {
                         name='email' 
                         value={this.state.formData.email} 
                         onChange={this.handleChange} 
-                        required
                     />
                     </div>
                     <div className="form-group">
                         <input 
                         type="password" 
                         name="password" 
-                        minLength="8"
                         value={this.state.formData.password}
                         onChange={this.handleChange}
                         placeholder='Password'
@@ -77,7 +75,7 @@ class Register extends React.Component {
                         <input 
                         type="password" 
                         name="password2" 
-                        minLength="8"
+                       
                         value={this.state.formData.password2}
                         onChange={this.handleChange}
                         placeholder='Confirm Password'
@@ -97,6 +95,7 @@ class Register extends React.Component {
 };
 
 Register.propTypes = {
-    setAlert: PropTypes.func.isRequired
+    setAlert: PropTypes.func.isRequired,
+    register: PropTypes.func.isRequired 
 }
-export default connect(null, { setAlert })(Register);
+export default connect(null, { setAlert, register })(Register);

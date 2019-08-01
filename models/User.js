@@ -22,6 +22,10 @@ const User  = sequelize.define(
             type: Sequelize.STRING,
             allowNull: false
         },
+        otp: {
+            type: Sequelize.INTEGER,
+            allowNull: true 
+        },
         isVerified: {
             type: Sequelize.STRING,
             allowNull: false,
