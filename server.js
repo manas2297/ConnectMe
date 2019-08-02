@@ -1,13 +1,14 @@
 const express = require('express');
 const Op = require('./config/db').Op;
 const app = express();
+const cors = require('cors');
 
 const PORT = process.env.PORT || 5000;
 
 
 //Init middleware
 app.use(express.json( { extended: false } ));
-
+app.use(cors());
 //Routes
 
 app.use('/api/users',require('./routes/api/users'));  //Route for registering a user

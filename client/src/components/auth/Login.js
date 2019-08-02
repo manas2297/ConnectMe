@@ -1,10 +1,21 @@
 import React from 'react';
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { login } from '../../actions/auth';
+import { connect } from 'react-redux';
+
+
+ 
+
+// if (localStorage.token) {
+//   setAuthToken(localStorage.token);
+// }
+
 
 class Login extends React.Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state ={
             formData:{
                 email:'',
@@ -14,14 +25,37 @@ class Login extends React.Component {
     }
     handleChange = (e) => {
         this.setState({formData : {...this.state.formData,[e.target.name]:e.target.value}});
+        console.log(this.state.formData.email);
     }
-    handleSubmit = (e) => {
+    handleSubmit =  (e) => {
+        console.log(`Inside Handle Submit!`)
         e.preventDefault();
-        console.log(this.state.formData);
+        const {email, password} = this.state.formData;
+        this.props.login({email, password});
+      
+    }
+
+    redirect =()=>{
+        console.log(`isAuhentiated: ${this.props.isAuthenticated}`)
+        if(this.props.isAuthenticated && !this.props.isVerified){
+            console.log(`${this.props.isAuthenticated} and ${this.props.isVerified}`);
+            this.props.history.push('/otp');
+        }else if ( this.props.isAuthenticated && this.props.isVerified ){
+            this.props.history.push('/dashboard');
+        }
+    }
+
+    componentDidMount(){
+        this.redirect();
+    }
+    componentDidUpdate(){
+        this.redirect();
     }
     
     render(){
+        
         return(
+            
             <Fragment>
             <p className='text-primary' style={{textAlign:'center'}}><i className='large fa fa-user' />
             </p>
@@ -38,7 +72,7 @@ class Login extends React.Component {
                     name='email' 
                     value={this.state.formData.email} 
                     onChange={this.handleChange} 
-                    required
+                    required  
                 />
                 </div>
                 <div className="form-group">
@@ -63,4 +97,15 @@ class Login extends React.Component {
     
 }
 
-export default Login;
+Login.propTypes = {
+    login: PropTypes.func.isRequired,
+    isAuthenticated : PropTypes.bool,
+    isVerified: PropTypes.bool
+}
+
+const mapStateToProps = (state) => ({
+    isAuthenticated : state.auth.isAuthenticated,
+    isVerified : state.auth.user.isVerified
+});
+
+export default connect(mapStateToProps,{ login })(Login);

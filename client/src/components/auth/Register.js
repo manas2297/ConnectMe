@@ -31,9 +31,25 @@ class Register extends React.Component {
             this.props.register({name, email, password});
         }
     }
-    
+
+    redirect = () => {
+        if(this.props.isAuthenticated && !this.props.isVerified){
+            console.log(`${this.props.isAuthenticated} and ${this.props.isVerified}`);
+            this.props.history.push('/otp');
+        }else if ( this.props.isAuthenticated && this.props.isVerified ){
+            this.props.history.push('/dashboard');
+        }
+    }
+    componentDidMount(){
+        this.redirect();
+    }
+    componentDidUpdate(){
+        this.redirect();
+    }
+  
     
     render(){
+       
         return(
             
             <Fragment>
@@ -96,6 +112,12 @@ class Register extends React.Component {
 
 Register.propTypes = {
     setAlert: PropTypes.func.isRequired,
-    register: PropTypes.func.isRequired 
+    register: PropTypes.func.isRequired,
+    isAuthenticated : PropTypes.bool,
+    isVerified : PropTypes.bool
 }
-export default connect(null, { setAlert, register })(Register);
+const mapStateToProps = (state) => ({
+    isAuthenticated : state.auth.isAuthenticated,
+    isVerified : state.auth.user.isVerified
+});
+export default connect(mapStateToProps, { setAlert, register })(Register);
