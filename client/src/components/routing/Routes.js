@@ -7,6 +7,8 @@ import Otp from '../auth/Otp';
 import NotFound from '../layout/NotFound';
 import Dashboard from '../dashboard/Dashboard';
 import PrivateRoute from './PrivateRoutes';
+import Display from '../Profile/Display';
+import Create from '../Profile/Create';
 
 class Routes extends Component {
     render(){
@@ -18,6 +20,8 @@ class Routes extends Component {
                   <Route exact path='/login' component={Login} /> 
                   <PrivateRoute exact path='/otp' component={Otp} />
                   <PrivateRoute exact path='/dashboard' component={Dashboard}/>
+                  <PrivateRoute exact path='/profile/display' component={Display}/>
+                  <PrivateRoute exact path='/profile/create' component={Create}/>
                   <Route component={NotFound}/>
                   
                 </Switch>

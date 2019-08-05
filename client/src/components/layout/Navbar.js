@@ -2,13 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { logout } from '../../actions/auth'
+import { logout } from '../../actions/auth';
+
+
+
 
 class Navbar extends React.Component {
     
     authLinks(){
         return(
             <ul>
+                 <li>
+                    <input type="search" name="search" placeholder='Search...' id="searchProfile" className='Searchbar' />
+                    <button className='btn-search' > <i className="fa fa-search" ></i> </button>
+                </li>
                 <li><Link to='/dashboard'>DashBoard</Link></li>
                 
                 <li><a href="#!" onClick={this.props.logout}>
@@ -16,6 +23,7 @@ class Navbar extends React.Component {
                     <span className='hide-sm'> Logout</span>
                     </a>
                 </li>
+               
                 
             </ul>
         )

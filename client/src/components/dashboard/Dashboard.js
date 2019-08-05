@@ -3,12 +3,14 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Sidebar from '../layout/Sidebar';
+import { getCurrentProfile } from '../../actions/profile';
 import Spinner from '../../components/layout/Spinner';
 
 class Dashboard extends React.Component {
 
    
     componentDidMount(){
+        this.props.getCurrentProfile();
     
     }
     componentDidUpdate(prevProps){
@@ -19,20 +21,10 @@ class Dashboard extends React.Component {
     render(){
         return (
 
-            this.props.auth.loading ? <Spinner/>:
+            this.props.auth.loading && this.props.profile ? <Spinner/>:null
             
 
-            (<Fragment>
-                <div className='layoutgrid'>
-                <Sidebar name={this.props.auth.user.name} />
-                <div >
-                    
-                </div>
 
-
-                </div>
-               
-            </Fragment>)
             
         )
     }
@@ -40,10 +32,13 @@ class Dashboard extends React.Component {
 }
 
 Dashboard.propTypes = {
-    auth: PropTypes.object.isRequired
-}
+    getCurrentProfile: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired
+};
 const mapStateToProps = (state) => ({
-    auth : state.auth
+    auth : state.auth,
+    profile: state.profile
 });
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps, { getCurrentProfile })(Dashboard);

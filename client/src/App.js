@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
+import Sidebar from './components/layout/Sidebar';
 
 
 
@@ -34,11 +35,17 @@ class App extends React.Component {
           <Fragment>
           
           <Navbar/>
-        
+          
+            <Sidebar/>
+           
+         
           <Switch>
-            <Route exact path='/' component={Landing}/>
-            <Route component={Routes}/>
-          </Switch>
+              <Route exact path='/' component={Landing}/>
+              <Route component={Routes}/>
+            </Switch>
+          
+
+          
         </Fragment>
         </Router>
       </Provider>    
