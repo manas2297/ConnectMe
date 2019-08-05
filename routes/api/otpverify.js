@@ -9,7 +9,7 @@ const auth = require('../../middleware/auth');
 
 //route Post api/users/otp
 //desc Verify Email
-router.post('/otp/:userid',[
+router.post('/:userid',[
     auth,
     [
     check('otp','Enter otp')
@@ -18,6 +18,8 @@ router.post('/otp/:userid',[
     ]
 ], async (req,res)=>{
     const errors = validationResult(req);
+    // console.log('body',req.body);
+    
     if(!errors.isEmpty()){
         return res.status(400).send({
             errors: errors.array()
@@ -26,6 +28,10 @@ router.post('/otp/:userid',[
 
     try{
         let user = await User.findOne({where:{userid:req.params.userid}});
+        req.body.otp = parseInt(req.body.otp);
+        console.log(typeof(req.body.otp),typeof(user.otp));
+
+        
         if(user.otp === req.body.otp){
             await user.update({isVerified:true});
             res.json(user);

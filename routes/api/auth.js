@@ -12,12 +12,14 @@ const config = require('config');
 //@access Public
 
 router.get('/', auth , async (req, res) => {
+    console.log('login body',req.body);
+    
     try{
         const user = await User.findOne({
             where: {
                 userid:req.user.id
             },
-            attributes: {exclude: ['password','userid']}
+            attributes: {exclude: ['password']}
         });
         res.json(user);
     }catch (err) {

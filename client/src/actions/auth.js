@@ -7,10 +7,12 @@ import {
     AUTH_ERROR, 
     LOGIN_SUCCESS, 
     LOGIN_FAIL, 
-    LOGOUT 
+    LOGOUT,
+    VERIFY_OTP
 } from './types';
 
 import setAuthToken from '../utils/setAuthToken';
+// import { Json } from 'sequelize/types/lib/utils';
 
 
 export const loadUser = () => async dispatch => {
@@ -100,4 +102,32 @@ export const login = ({ email, password}) => async dispatch => {
 
 export const logout = () => dispatch => {
     dispatch({ type:LOGOUT });
+};
+
+export const verifyotp = (userid, otp) => async dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+       
+    }
+    console.log('action',userid);
+    
+    const body = JSON.stringify({otp});
+    
+    
+    try{
+        const res = await axios.post(`http://localhost:5000/api/otp/${userid}`,body,config)
+        dispatch({
+            type: VERIFY_OTP,
+            payload:res.data
+        });
+        // dispatch(loadUser());
+    }catch ( err ) {
+        const errors = err.response.data.errors;
+
+        if(errors){
+            errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+        }
+    }
 }

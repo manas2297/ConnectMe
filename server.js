@@ -14,7 +14,7 @@ app.use(cors());
 app.use('/api/users',require('./routes/api/users'));  //Route for registering a user
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/profile',require('./routes/api/profile'));
-app.use('/api/otpverify',require('./routes/api/otpverify'))
+app.use('/api/otp',require('./routes/api/otpverify'))
 
 
 

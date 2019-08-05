@@ -25,7 +25,7 @@ class Login extends React.Component {
     }
     handleChange = (e) => {
         this.setState({formData : {...this.state.formData,[e.target.name]:e.target.value}});
-        console.log(this.state.formData.email);
+       
     }
     handleSubmit =  (e) => {
         console.log(`Inside Handle Submit!`)
@@ -36,9 +36,8 @@ class Login extends React.Component {
     }
 
     redirect =()=>{
-        console.log(`isAuhentiated: ${this.props.isAuthenticated}`)
+        console.log(`isAuhentiated: ${this.props.isAuthenticated}, isVerified: ${this.props.isVerified}`);
         if(this.props.isAuthenticated && !this.props.isVerified){
-            console.log(`${this.props.isAuthenticated} and ${this.props.isVerified}`);
             this.props.history.push('/otp');
         }else if ( this.props.isAuthenticated && this.props.isVerified ){
             this.props.history.push('/dashboard');
@@ -48,11 +47,27 @@ class Login extends React.Component {
     componentDidMount(){
         this.redirect();
     }
-    componentDidUpdate(){
-        this.redirect();
+
+    componentDidUpdate(prevProps){
+        // alert('login')
+        console.log(`isAuhentiated: ${this.props.isAuthenticated}, isVerified: ${this.props.isVerified}`);
+        // console.log('Component u',this.props.isVerified,prevProps);
+        
+        console.log(`currentVer: ${this.props.isVerified}, prev: ${prevProps.isVerified}`);
+        console.log(`currentA: ${this.props.isAuthenticated}, prev: ${prevProps.isAuthenticated}`);
+        
+        if(
+            (this.props.isVerified && prevProps.isVerified ===null) &&
+            this.props.isAuthenticated) {
+            this.redirect();
+        }else if((!this.props.isVerified && prevProps.isVerified === null) && this.props.isAuthenticated ){
+            this.redirect();
+        }
     }
     
     render(){
+        console.log('red u',this.props.isVerified);
+
         
         return(
             
@@ -105,7 +120,7 @@ Login.propTypes = {
 
 const mapStateToProps = (state) => ({
     isAuthenticated : state.auth.isAuthenticated,
-    isVerified : state.auth.user.isVerified
+    isVerified : state.auth.isVerified
 });
 
 export default connect(mapStateToProps,{ login })(Login);

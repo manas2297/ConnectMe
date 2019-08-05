@@ -318,7 +318,7 @@ button {
   width: 100%;
   top: 0;
   border-bottom: solid 1px var(--primary-color);
-  opacity: 0.9;
+  
 }
 
 .navbar ul {
@@ -339,6 +339,60 @@ button {
   margin-right: 0.6rem;
 }
 
+.layoutgrid{
+  display: grid;
+  margin-top:60px;
+  grid-template-areas: "s s c c c"
+                       "s s c c c"
+                       "s s f f f";
+   
+}
+
+/* Sidebar */
+.sidebar{
+  grid-area: s;  
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+
+  width: 240px;
+  height: 100vh;
+  background:#212122;
+}
+.sidebar a {
+  color: white;
+  display: block;
+  background: #343a40;
+  margin-top:10px;
+  padding: 10px 15px;
+  border-right: 5px solid #db0a5b;
+}
+.sidebar a:hover{
+  background:var(--primary-color);
+  border-right: 6px solid #343a40;
+  
+}
+.profilePic {
+  width:90px;
+  height: 90px;
+  margin: 0 auto;
+  margin-top : 40px;
+  border-radius: 50%;
+  background: #444;
+  margin-bottom: 20px;
+}
+.name_header{
+  text-align: center;
+  color: white;
+  margin-bottom: 20px;
+}
+.fa-user{
+  position: relative;
+  top: 24%;
+  left: 30%;
+  color: white;
+
+}
 /* Landing Page */
 .landing {
   position: relative;

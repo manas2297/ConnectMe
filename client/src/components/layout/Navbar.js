@@ -5,6 +5,32 @@ import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth'
 
 class Navbar extends React.Component {
+    
+    authLinks(){
+        return(
+            <ul>
+                <li><Link to='/dashboard'>DashBoard</Link></li>
+                
+                <li><a href="#!" onClick={this.props.logout}>
+                    <i className="fa fa-sign-out"></i>
+                    <span className='hide-sm'> Logout</span>
+                    </a>
+                </li>
+                
+            </ul>
+        )
+
+    }
+
+    guestLinks(){
+        return(
+            <ul>
+                <li><Link to="/register">Register</Link></li>
+                <li><Link to="/login">Login</Link></li>
+            </ul>
+        )
+            
+    }
 
     render(){
         return (
@@ -12,10 +38,7 @@ class Navbar extends React.Component {
             <h1>
                 <Link to="/"> <i className="fa fa-code"></i> ConnectMe </Link>
             </h1>
-            <ul>
-                <li><Link to="/register">Register</Link></li>
-                <li><Link to="/login">Login</Link></li>
-            </ul>
+            {(!this.props.auth.loading && this.props.auth.isAuthenticated)?this.authLinks():this.guestLinks()}
         </nav>
     )
     }
