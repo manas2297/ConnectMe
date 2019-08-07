@@ -1,6 +1,7 @@
 /* Global Styles */
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
 :root {
-  --primary-color: #db0a5b;
+  --primary-color: #43a8b1;
   --dark-color: #343a40;
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
@@ -11,6 +12,11 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.text-danger{
+  color: var(--danger-color);
 }
 
 body {
@@ -260,15 +266,19 @@ img {
 .form select,
 .form textarea {
   display: block;
-
+  border-radius: 5px;
   width: 100%;
   padding: 0.4rem;
   font-size: 1.2rem;
-  border: 1px solid #ccc;
+  border: 1px solid rgb(193, 226, 185);
 }
+
+
+
 
 .form input[type='submit'],
 button {
+  
   font: inherit;
 }
 
@@ -380,7 +390,7 @@ button {
   top:60px;
   left:247px;
   width:81%;
-  background: #ccc;
+  padding: 40px;
   
   
 
@@ -484,9 +494,7 @@ input[type="search"]::-webkit-search-cancel-button{
   line-height: 1.8;
   margin-bottom: 1rem;
 }
-.main-content{
 
-}
 /* Profile Page */
 .profile-grid {
   display: grid;

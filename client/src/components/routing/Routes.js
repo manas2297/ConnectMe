@@ -14,7 +14,7 @@ class Routes extends Component {
     render(){
         return (
             <Fragment>
-                <Alert/>
+                
                 <Switch>
                   <Route exact path='/register' component={Register} />
                   <Route exact path='/login' component={Login} /> 

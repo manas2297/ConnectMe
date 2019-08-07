@@ -7,11 +7,13 @@ class Alert extends React.Component{
     render(){
 
         return(
+
+                
             
                 this.props.alerts !==null && this.props.alerts.length > 0 && this.props.alerts.map(alert => (
-                    <div key={alert.id} className={`alert alert-${alert.alertType}`}>
+                    <p key={alert.id} className={`alert alert-${alert.alertType}`}>
                         {alert.msg}
-                    </div>
+                    </p>
                 ))
             
            

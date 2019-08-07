@@ -16,7 +16,7 @@ class Navbar extends React.Component {
                     <input type="search" name="search" placeholder='Search...' id="searchProfile" className='Searchbar' />
                     <button className='btn-search' > <i className="fa fa-search" ></i> </button>
                 </li>
-                <li><Link to='/dashboard'>DashBoard</Link></li>
+                <li><Link to='/dashboard'><i className="fa fa-tachometer"></i> DashBoard</Link></li>
                 
                 <li><a href="#!" onClick={this.props.logout}>
                     <i className="fa fa-sign-out"></i>

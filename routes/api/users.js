@@ -8,13 +8,16 @@ const User  = require('../../models/User');
 const config = require('config');
 const nodemailer = require('nodemailer');
 
-const transporter = nodemailer.createTransport({
-    service:'gmail',
-    auth:{
-        user:'manas@cronj.com',
-        pass:'mmmut@1234'
-    }
-});
+// const transporter = nodemailer.createTransport({
+//     service:'gmail',
+//     auth:{
+//         user:'manas@cronj.com',
+//         pass:'mmmut@1234'
+//     }
+// });
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 
 
 
@@ -73,19 +76,26 @@ router.post('/', [
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
         await user.save();
-        const mailOptions = {
-            from: 'manas@cronj.com', // sender address
+        const msg = {
+            from: 'no-reply@connectme.com', // sender address
             to: email, // list of receivers
             subject: 'Verify your email', // Subject line
-            html:  `Your OTP is ${otp}`// plain text body
-          };
-        transporter.sendMail(mailOptions, function (err, info) {
-            if(err)
-                console.log(err)
-            else
-                console.log(info);
-        });
+            // html:  `Your OTP is ${otp}`,// plain text body
+            templateId: 'd-d16fe0617ab44c92b7869dd0899d4282',
+            dynamic_template_data: {
+                Sender_Name: 'Testing Templates',
+                name: 'Some One',
+                city: 'Denver',
+              },
 
+          };
+        // transporter.sendMail(mailOptions, function (err, info) {
+        //     if(err)
+        //         console.log(err)
+        //     else
+        //         console.log(info);
+        // });
+          sgMail.send(msg);
 
         const payload = {
             id : user.userid

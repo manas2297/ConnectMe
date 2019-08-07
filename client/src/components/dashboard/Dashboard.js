@@ -11,6 +11,7 @@ class Dashboard extends React.Component {
    
     componentDidMount(){
         this.props.getCurrentProfile();
+        
     
     }
     componentDidUpdate(prevProps){
@@ -21,7 +22,20 @@ class Dashboard extends React.Component {
     render(){
         return (
 
-            this.props.auth.loading && this.props.profile ? <Spinner/>:null
+            <div className="main-content">
+                {
+                    this.props.auth.loading && this.props.profile ? <Spinner/>:<Fragment>
+                        <h1 className='large text-primary'>Dashboard</h1>
+                        <p className='lead '>
+                         Welcome { this.props.auth.user.name }
+                        </p>
+                    </Fragment>
+                }
+                  
+
+            </div>
+
+          
             
 
 
