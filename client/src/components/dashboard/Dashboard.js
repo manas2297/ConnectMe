@@ -9,7 +9,20 @@ import './Dashboard.css';
 
 class Dashboard extends React.Component {
 
-   
+   constructor(){
+       super();
+       this.state = {
+           isLoading: true,
+           isAuth : false
+       }
+   }
+
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            isLoading : nextProps.profile.loading,
+            isAuth : nextProps.auth.loading
+        })
+    }
     componentDidMount(){
         this.props.getCurrentProfile();
         
@@ -21,7 +34,7 @@ class Dashboard extends React.Component {
 
             <div className="main-content">
                 {
-                    this.props.auth.loading && this.props.profile ? <Spinner/>:<Fragment>
+                    !this.state.isAuth && this.state.isLoading ? <Spinner/>:<Fragment>
                         <div className="header">
                             <h1 className='large text-primary'>Dashboard</h1>
                             <p className='lead'>
