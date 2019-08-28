@@ -1,0 +1,42 @@
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+}
+.header p{
+    /* justify-self: start; */
+    margin-left: auto;
+
+}
+.theme{
+    border-radius: 8px;
+    box-shadow: #ccc 2px 2px 5px 3px;
+    padding: 30px 20px;
+}
+
+.post{
+    display: flex;
+    justify-content: space-between;
+    background: white;
+    width:60%;
+    margin: 0 auto;
+    
+    
+}
+.post input{
+    width: 350px;
+    border: none;
+    padding: 10px 5px;
+    border-bottom: 1px solid #db0a5b;
+}
+.post button{
+    border:none;
+    background: #db0a5b;
+    color: white;
+    font-weight: 700;
+    padding-top: 5px;
+    border-radius: 8px;
+    /* margin: 0px; */
+    width: 100%;
+}

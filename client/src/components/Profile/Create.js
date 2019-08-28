@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link }  from 'react-router-dom';
+// import { Link }  from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { connect } from 'react-redux';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
 import Alert from '../layout/Alert';
-import Spinner from '../layout/Spinner'
+// import Spinner from '../layout/Spinner'
 
 const history = createBrowserHistory();
 
@@ -42,16 +42,22 @@ class Create extends React.Component {
     }
 
     componentDidMount(){
-        getCurrentProfile();
+        this.props.getCurrentProfile();
+        alert('hello');
 
-        // this.setState({
-        //     formData: {
-        //         mobile_no: loading || !this.state.formData.mobile_no ? '':this.props.profile. 
-        //     }
-        // })
+        this.setState({
+            formData: {
+                mobile_no: this.props.profile.loading || !this.state.formData.mobile_no ? '':this.props.profile.mobile_no
+            }
+        });
+        console.log(this.props.profile,'mobile from props');
+        console.log(this.state.formData.mobile_no,'Mobile number from state');
+
+        
 
     }
-    toggleSocial = () => {
+    toggleSocial = () => { 
+
         let b = this.state.displaySocial;
         this.setState({displaySocial:!b});
     }
@@ -65,10 +71,14 @@ class Create extends React.Component {
     }
     componentDidUpdate(){
        
-        
+        // this.props.getCurrentProfile();
     }
     render(){
+       
+        this.props.getCurrentProfile();
         const loading = this.props.profile.loading;
+        console.log(loading);
+        
         const {  
             mobile_no,
             company,
@@ -129,7 +139,7 @@ class Create extends React.Component {
                         <small className='form-text'>Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)</small>
                     </div>
                     <div className="form-group">
-                        <input type="text" name="mobile_no" placeholder="Phone" onChange={this.onChangehandle} value={mobile_no}/>
+                        <input type="text" name="mobile_no" placeholder="Phone" onChange={this.onChangehandle} value={this.state.formData.mobile_no}/>
                         <small className='form-text'>Please enter your phone no.</small>
                     </div>
 

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Sidebar from '../layout/Sidebar';
 import { getCurrentProfile } from '../../actions/profile';
 import Spinner from '../../components/layout/Spinner';
+import './Dashboard.css';
 
 class Dashboard extends React.Component {
 
@@ -25,10 +26,19 @@ class Dashboard extends React.Component {
             <div className="main-content">
                 {
                     this.props.auth.loading && this.props.profile ? <Spinner/>:<Fragment>
-                        <h1 className='large text-primary'>Dashboard</h1>
-                        <p className='lead '>
-                         Welcome { this.props.auth.user.name }
-                        </p>
+                        <div className="header">
+                            <h1 className='large text-primary'>Dashboard</h1>
+                            <p className='lead'>
+                                { this.props.auth.user.name }
+                            </p>
+                        </div>
+                        
+                        <div className="content">
+                            <div className='post theme'>
+                                <input type="text" name='post' placeholder='Add post'/>
+                                <button>Add</button>
+                            </div>
+                        </div>
                     </Fragment>
                 }
                   
