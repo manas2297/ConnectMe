@@ -6,7 +6,8 @@ import {
     LOGIN_FAIL,
     LOGIN_SUCCESS,
     LOGOUT,
-    VERIFY_OTP
+    VERIFY_OTP,
+    CLEAR_PROFILE
 } from '../actions/types';
 import { createBrowserHistory } from 'history';
 const history = createBrowserHistory();

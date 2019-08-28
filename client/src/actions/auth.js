@@ -8,7 +8,8 @@ import {
     LOGIN_SUCCESS, 
     LOGIN_FAIL, 
     LOGOUT,
-    VERIFY_OTP
+    VERIFY_OTP,
+    CLEAR_PROFILE
 } from './types';
 
 import setAuthToken from '../utils/setAuthToken';
@@ -102,6 +103,7 @@ export const login = ({ email, password}) => async dispatch => {
 
 export const logout = () => dispatch => {
     dispatch({ type:LOGOUT });
+    dispatch({ type:CLEAR_PROFILE});
 };
 
 export const verifyotp = (userid, otp) => async dispatch => {

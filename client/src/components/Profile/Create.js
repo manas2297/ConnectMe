@@ -75,7 +75,7 @@ class Create extends React.Component {
     }
     render(){
        
-        this.props.getCurrentProfile();
+        // this.props.getCurrentProfile();
         const loading = this.props.profile.loading;
         console.log(loading);
         

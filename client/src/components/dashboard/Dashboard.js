@@ -15,10 +15,6 @@ class Dashboard extends React.Component {
         
     
     }
-    componentDidUpdate(prevProps){
-       
-    }
-
 
     render(){
         return (

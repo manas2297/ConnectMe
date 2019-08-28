@@ -27,7 +27,9 @@ router.post('/:userid',[
     }
 
     try{
-        let user = await User.findOne({where:{userid:req.params.userid}});
+        let user = await User.findOne({where:{userid:req.params.userid},
+            attributes: {exclude: ['password']}
+        });
         req.body.otp = parseInt(req.body.otp);
         console.log(typeof(req.body.otp),typeof(user.otp));
 
