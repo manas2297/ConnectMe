@@ -9,9 +9,13 @@ const User = sequelize.define(
             type: Sequelize.UUIDV4,
             primaryKey: true
         },
-        name: {
+        firstname: {
             type: Sequelize.STRING,
             allowNull: false
+        },
+        lastname: {
+            type: Sequelize.STRING,
+            allowNull: false,
         },
         email: {
             type: Sequelize.STRING,
