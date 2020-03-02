@@ -1,6 +1,0 @@
-{
-    "dbName":"connectme",
-    "dbUser":"manas",
-    "dbPass":"test1234",
-    "jwtSecret":"111111"
-}
